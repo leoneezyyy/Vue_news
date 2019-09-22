@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="container">
     <!-- 关闭按钮 -->
     <div class="close">
       <span class="iconfont iconicon-test"></span>
@@ -12,30 +12,53 @@
 
     <!-- 用户名密码输入框 -->
     <div>
-      <input type="text" />
-    </div>
-
-    <div>
-      <input type="text" />
+      <AuthInput 
+      placeholder="手机号码" 
+      :value="form.username"
+      @input="handleUsername"
+      ></AuthInput>
     </div>
 
     <!-- 登录按钮 -->
-    <button>登录</button>
+    <button @click="handleSubmit">登录</button>
   </div>
 </template>
 
 <script>
+// 导入输入框组件
+import AuthInput from "@/components/AuthInput";
+
 export default {
   data() {
     return {
-      list: []
+      // 发送后台的数据
+      form: {
+        username: "",
+        password: ""
+      }
     };
+  },
+
+  // 注册组件
+  components: {
+    AuthInput
+  },
+
+  methods:{
+    handleUsername(value){
+      this.form.username = value
+    },
+
+    // 表单提交
+    handleSubmit(){
+      console.log(this.form);
+    },
   }
 };
 </script>
 
 <style lang="less" scoped>
-.close {
+.container {
   padding: 20px;
 
   span {
