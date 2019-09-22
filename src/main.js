@@ -3,7 +3,7 @@ import VueRouter from 'vue-router';
 import App from "@/App.vue";
 import Login from '@/pages/Login';
 
-// 在.vue文件中使用router-link或router-view需要fsdfsdfds
+// 在.vue文件中使用router-link或router-view需要先注册
 Vue.use(VueRouter);
 
 // 创建路由配置

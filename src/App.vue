@@ -1,8 +1,5 @@
 <template>
   <div>
-    第一个单文件组件 {{message}}
-    <router-link to="/login">登录页</router-link>
-
     <router-view></router-view>
   </div>
 </template>
@@ -10,12 +7,34 @@
 <script>
 export default {
   data() {
-    return {
-      message: "hhh"
-    };
+    return {};
   }
 };
 </script>
 
 <style>
+@import url("http://at.alicdn.com/t/font_1426139_h6vn3jbl5q.css");
+* {
+  margin: 0;
+  padding: 0;
+}
+
+a {
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+ul,
+li,
+ol {
+  list-style: none;
+}
+
+i,
+em {
+  font-style: normal;
+}
 </style>
