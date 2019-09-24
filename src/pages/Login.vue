@@ -11,7 +11,7 @@
     </div>
 
     <!-- 用户名密码输入框 -->
-    <div>
+    <div class="inputs">
       <AuthInput
         placeholder="手机号码"
         :value="form.username"
@@ -29,13 +29,15 @@
     </div>
 
     <!-- 登录按钮 -->
-    <button @click="handleSubmit">登录</button>
+    <AuthButton text="登录" @click="handleSubmit" />
   </div>
 </template>
 
 <script>
-// 导入输入框组件
+// 导入组件
 import AuthInput from "@/components/AuthInput";
+import AuthButton from "@/components/AuthButton";
+import axios from "axios";
 
 export default {
   data() {
@@ -50,7 +52,8 @@ export default {
 
   // 注册组件
   components: {
-    AuthInput
+    AuthInput,
+    AuthButton
   },
 
   methods: {
@@ -60,7 +63,14 @@ export default {
 
     // 表单提交
     handleSubmit() {
-      console.log(this.form);
+      axios({
+        url: "http://localhost:3000/login",
+        method: "POST", // methods相当于type
+        data: this.form
+        //  .then的回调函数相当于success
+      }).then(res => {
+        console.log(res);
+      });
     }
   }
 };
@@ -83,6 +93,12 @@ export default {
     display: block;
     font-size: 126 / 360 * 100vw;
     color: #d81e06;
+  }
+}
+
+.inputs {
+  input {
+    margin-bottom: 20px;
   }
 }
 </style>

@@ -42,8 +42,8 @@ export default {
 
     // 输入框失去焦点时候触发
     handleChange() {
-      if (this.err_message) {
-        alert(this.err_message && this.status === 'error');
+      if (this.err_message && this.status === "error") {
+        this.$toast.fail(this.err_message)
       }
     }
   }
@@ -54,7 +54,7 @@ export default {
 input {
   width: 100%;
   height: 38 / 360 * 100vw;
-  padding: 20px;
+  padding: 20px 0;
   box-sizing: border-box;
   background: #fff;
   border: none;
