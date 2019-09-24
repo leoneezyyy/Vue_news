@@ -1,9 +1,9 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
 // 导入vant-ui组件
-import Vant from 'vant'
+import Vant from "vant";
 // 导入axios
-import axios from 'axios';
+import axios from "axios";
 
 // 导入组件
 import App from "@/App.vue";
@@ -11,10 +11,13 @@ import Login from "@/pages/Login";
 
 // 在.vue文件中使用router-link或router-view需要先注册
 Vue.use(VueRouter);
-Vue.use(Vant)
+Vue.use(Vant);
 
 // 把axios挂载到原型
-Vue.prototype.$axios = axios  // this.$axios
+Vue.prototype.$axios = axios; // this.$axios
+
+// 基准路劲，以后每次请求都会自动在前面加上该路劲
+axios.defaults.baseURL = "http://localhost:3000";
 
 // 创建路由配置
 const routes = [
