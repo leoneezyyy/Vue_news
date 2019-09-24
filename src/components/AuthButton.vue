@@ -1,7 +1,7 @@
 <template>
   <div
     class='button'
-    @click = 'handleClick'>
+    @click = 'handleClick($event)'>
     {{text}}
   </div>
 </template>
