@@ -12,12 +12,19 @@
 
     <!-- 用户名密码输入框 -->
     <div>
-      <AuthInput 
-      placeholder="手机号码" 
-      :value="form.username"
-      @input="handleUsername"
-      :rule='/^1[0-9]{4,10}$/'
-      err_message='手机号码格式不正确'
+      <AuthInput
+        placeholder="手机号码"
+        :value="form.username"
+        @input="handleUsername"
+        :rule="/^1[0-9]{4,10}$/"
+        err_message="手机号码格式不正确"
+      ></AuthInput>
+
+      <AuthInput
+        placeholder="密码"
+        v-model="form.password"
+        :rule="/^[0-9a-zA-Z]{3,12}$/"
+        err_message="密码格式不正确"
       ></AuthInput>
     </div>
 
@@ -37,7 +44,7 @@ export default {
       form: {
         username: "",
         password: ""
-      },
+      }
     };
   },
 
@@ -46,15 +53,15 @@ export default {
     AuthInput
   },
 
-  methods:{
-    handleUsername(value){
-      this.form.username = value
+  methods: {
+    handleUsername(value) {
+      this.form.username = value;
     },
 
     // 表单提交
-    handleSubmit(){
+    handleSubmit() {
       console.log(this.form);
-    },
+    }
   }
 };
 </script>
