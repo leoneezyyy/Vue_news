@@ -28,9 +28,23 @@
 <script>
 // 导入条形组件
 import CellBar from "@/components/CellBar";
+
 export default {
   components: {
     CellBar
+  },
+
+  mounted() {
+    // 请求个人资料接口
+    this.$axios({
+      url: "/user/" + localStorage.getItem("user_id"),
+      // 添加头信息
+      headers: {
+        Authorization: localStorage.getItem("token")
+      }
+    }).then(res => {
+      console.log(res);
+    });
   }
 };
 </script>

@@ -24,37 +24,37 @@ axios.defaults.baseURL = "http://localhost:3000";
 
 // 创建路由配置
 const routes = [
-  { path: "/login", component: Login },
-  { path: "/Register", component: Register },
-  { path: "/register", component: Register },
-  { path: "/personal", component: Personal }
+    { path: "/login", component: Login },
+    { path: "/Register", component: Register },
+    { path: "/register", component: Register },
+    { path: "/personal", component: Personal }
 ];
 
 // 创建对象
 const router = new VueRouter({
-  routes
+    routes
 });
 
 // axios的统一的拦截器，拦截响应
 // 固定的声明
 axios.interceptors.response.use(res => {
-  const { message, statusCode } = res.data;
+    const { message, statusCode } = res.data;
 
-  if (statusCode === 401) {
-    Toast.fail(message);
-  }
+    if (statusCode === 401) {
+        Toast.fail(message);
+    }
 
-  // 必须要返回res
-  return res;
+    // 必须要返回res
+    return res;
 });
 
 new Vue({
-  el: "#app",
+    el: "#app",
 
-  // 指定一个组件渲染到根实例，这个组件可以成为最底层的组件
-  render: function(createElement) {
-    // render函数使用固定的写法
-    return createElement(App);
-  },
-  router
+    // 指定一个组件渲染到根实例，这个组件可以成为最底层的组件
+    render: function (createElement) {
+        // render函数使用固定的写法
+        return createElement(App);
+    },
+    router
 });

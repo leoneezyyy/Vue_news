@@ -22,7 +22,7 @@
 
       <AuthInput
         placeholder="密码"
-        type='password'
+        type="password"
         v-model="form.password"
         :rule="/^[0-9a-zA-Z]{3,12}$/"
         err_message="密码格式不正确"
@@ -31,7 +31,7 @@
 
     <p class="tips">
       没有账号？
-      <router-link to='/register'>去注册</router-link>
+      <router-link to="/register">去注册</router-link>
     </p>
 
     <!-- 登录按钮 -->
@@ -74,10 +74,14 @@ export default {
         data: this.form
         //  .then的回调函数相当于success
       }).then(res => {
-        const { message } = res.data;
+        const { message, data } = res.data;
 
         if (message === "登录成功") {
-          this.$router.push("/");
+          // 把token和id保存到本地
+          localStorage.setItem("token", data.token);
+          localStorage.setItem("user_id", data.user.id);
+
+          this.$router.push("/personal");
         }
       });
     }
@@ -111,11 +115,11 @@ export default {
   }
 }
 
-.tips{
+.tips {
   text-align: right;
   margin-bottom: 20px;
 
-  a{
+  a {
     color: #3385ff;
   }
 }
