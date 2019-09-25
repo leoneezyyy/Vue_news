@@ -27,7 +27,9 @@ const routes = [
     { path: "/login", component: Login },
     { path: "/Register", component: Register },
     { path: "/register", component: Register },
-    { path: "/personal", component: Personal }
+    { path: "/personal", component: Personal },
+    { path: "/edit_profile", component: EditProfile },
+
 ];
 
 // 创建对象
@@ -44,7 +46,7 @@ router.beforeEach((to, from, next) => {
     const hasToken = localStorage.getItem("token");
 
     // 判断是否是需要登陆权限的页面
-    if (to.path === "/personal") {
+    if (to.path === "/personal" || to.path === '/edit_profile') {
 
         // 判断本地是否有token
         if (hasToken) {
