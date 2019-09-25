@@ -22,7 +22,7 @@
 
     <CellBar label="我的收藏" text="文章/视频" />
 
-    <CellBar label="退出" />
+    <CellBar label="退出" @click="handleLogout" />
   </div>
 </template>
 
@@ -40,6 +40,18 @@ export default {
 
   components: {
     CellBar
+  },
+
+  methods:{
+    // 退出登录
+    handleLogout(){
+      // 清除本地的token和id
+      localStorage.removeItem('token')
+      localStorage.removeItem('user_id')
+
+      // replace替换上一个页面
+      this.$router.replace('/login')
+    }
   },
 
   mounted() {
