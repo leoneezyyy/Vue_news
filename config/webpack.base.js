@@ -8,6 +8,9 @@ const {
 // 引入vue-loader插件
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
+// 导入复制文件夹的插件
+const CopyPlugin = require("copy-webpack-plugin");
+
 module.exports = {
     // 入口
     entry: {
@@ -40,33 +43,33 @@ module.exports = {
     // 模块加载器
     module: {
         rules: [{
-                test: /\.css$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "vue-style-loader",
-                    use: ["css-loader"]
-                })
-            },
-            {
-                test: /\.less$/,
-                use: ExtractTextPlugin.extract({
-                    fallback: "vue-style-loader",
-                    use: ["css-loader", "less-loader"]
-                })
-            },
-            {
-                test: /\.(png|svg|jpg|gif)$/,
-                use: [{
-                    loader: "file-loader",
-                    options: {
-                        publicPath: "./images/",
-                        outputPath: "images"
-                    }
-                }]
-            },
-            {
-                test: /\.vue$/,
-                use: ['vue-loader']
-            },
+            test: /\.css$/,
+            use: ExtractTextPlugin.extract({
+                fallback: "vue-style-loader",
+                use: ["css-loader"]
+            })
+        },
+        {
+            test: /\.less$/,
+            use: ExtractTextPlugin.extract({
+                fallback: "vue-style-loader",
+                use: ["css-loader", "less-loader"]
+            })
+        },
+        {
+            test: /\.(png|svg|jpg|gif)$/,
+            use: [{
+                loader: "file-loader",
+                options: {
+                    publicPath: "./images/",
+                    outputPath: "images"
+                }
+            }]
+        },
+        {
+            test: /\.vue$/,
+            use: ['vue-loader']
+        },
         ]
     },
 
@@ -83,6 +86,10 @@ module.exports = {
         }),
 
         // vue加载器插件
-        new VueLoaderPlugin()
+        new VueLoaderPlugin(),
+
+        new CopyPlugin([
+            { from: 'static', to: 'static' },
+        ]),
     ]
 };
