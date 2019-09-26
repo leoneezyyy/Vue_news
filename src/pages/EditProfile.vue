@@ -37,6 +37,30 @@ export default {
     CellBar
   },
 
+  methods: {
+    afterRead(file) {
+      // 构造表单数据
+      const formData = new FormData();
+      // 通过表单使用append方法追加数据
+      formData.append("file", file.file);
+
+      this.$axios({
+        url: "/upload",
+        methods: "POST",
+        // 添加头信息
+        headers: {
+          Authorization: localStorage.getItem('token')
+        },
+        data: formData
+      }).then(res => {
+        const {data} = res.data;
+
+        // 替换用户资料的头像
+        this.profile.head_img = this.$axios.defaults.baseURL + data.url;
+      });
+    }
+  },
+
   mounted() {
     // 请求个人资料接口
     this.$axios({
