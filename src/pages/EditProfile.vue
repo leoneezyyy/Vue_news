@@ -46,17 +46,37 @@ export default {
 
       this.$axios({
         url: "/upload",
-        methods: "POST",
+        method: "POST",
         // 添加头信息
         headers: {
-          Authorization: localStorage.getItem('token')
+          Authorization: localStorage.getItem("token")
         },
+        // 把表单数据上传到服务器
         data: formData
       }).then(res => {
-        const {data} = res.data;
-
+        const { data } = res.data;
         // 替换用户资料的头像
         this.profile.head_img = this.$axios.defaults.baseURL + data.url;
+
+        // 把头像url上传到用户资料
+        this.$axios({
+          url: `/user_update/` + localStorage.getItem("user_id"),
+          methods: "POST",
+          // 添加头信息
+          headers: {
+            Authorization: localStorage.getItem("token")
+          },
+          data: {
+            head_img: data_url
+          }
+        }).then(res => {
+          const { message } = res.data;
+
+          // 成功的弹窗提示
+          if (message === "修改成功") {
+            this.$toast.success(message);
+          }
+        });
       });
     }
   },
@@ -101,7 +121,7 @@ export default {
 
   .uploader {
     position: absolute;
-    opacity: 0.7;
+    opacity: 0;
   }
 
   img {
@@ -112,7 +132,7 @@ export default {
   }
 
   // 如果要修改第三方组件库的样式时候，需要在前面加上/deep/， 因为组件库的样式不受scoped的影响
-  /deep/ .van-uploader_unload {
+  /deep/ .van-uploader__upload {
     width: 100 / 360 * 100vw;
     height: 100 / 360 * 100vw;
   }
