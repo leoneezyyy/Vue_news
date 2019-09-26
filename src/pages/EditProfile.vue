@@ -6,6 +6,9 @@
     <!-- 头像 -->
     <div class="head">
       <img :src="profile.head_img" alt />
+
+      <!-- vant上传组件 -->
+      <van-uploader :after-read="afterRead" class="uploader" />
     </div>
 
     <!-- 调用条形组件 -->
@@ -18,13 +21,13 @@
 </template>
 
 <script>
-import HeaderNomal from "@/componets/HeaderNormal";
+// 导入头部
+import HeaderNormal from "@/components/HeaderNormal";
 import CellBar from "@/components/CellBar";
 
 export default {
   data() {
     return {
-      //   用户详情
       profile: {}
     };
   },
@@ -49,6 +52,9 @@ export default {
         // 保存到data
         this.profile = data;
 
+        // 把后台返回的性别复制genderCache,性别需要转换成字符串
+        this.genderCache = String(data.gender);
+
         // 如果用户有头像
         if (data.head_img) {
           this.profile.head_img = this.$axios.defaults.baseURL + data.head_img;
@@ -57,7 +63,8 @@ export default {
         }
       }
     });
-
+  }
+};
 </script>
 
 <style scoped lang="less">
@@ -66,6 +73,12 @@ export default {
   justify-content: center;
   align-items: center;
   padding: 20px;
+  position: relative;
+
+  .uploader {
+    position: absolute;
+    opacity: 0.7;
+  }
 
   img {
     display: block;
@@ -73,5 +86,11 @@ export default {
     height: 100 / 360 * 100vw;
     border-radius: 50%;
   }
+
+  // 如果要修改第三方组件库的样式时候，需要在前面加上/deep/， 因为组件库的样式不受scoped的影响
+  /deep/ .van-uploader_unload {
+    width: 100 / 360 * 100vw;
+    height: 100 / 360 * 100vw;
+  }
 }
-</style> 
+</style>

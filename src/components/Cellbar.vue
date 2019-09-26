@@ -3,7 +3,6 @@
   <div class="cell-wrap" @click="$emit('click', $event)">
     <div class="cell">
       <span>{{label}}</span>
-      <i>{{text}}</i>
 
       <!-- 如果type等于password，显示星号 -->
       <i>{{ type === 'password'? '******' : text}}</i>
@@ -23,6 +22,7 @@ export default {
 <style scoped lang="less">
 .cell-wrap {
   padding-left: 10px;
+
   .cell {
     display: flex;
     justify-content: space-between;
@@ -30,6 +30,7 @@ export default {
     padding-right: 10px;
     height: 48 / 360 * 100vw;
     border-bottom: 1px #eee solid;
+
     i {
       display: block;
       flex: 1;
@@ -40,4 +41,4 @@ export default {
     }
   }
 }
-</style> 
+</style>

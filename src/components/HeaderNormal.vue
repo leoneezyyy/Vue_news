@@ -13,20 +13,20 @@ export default {
 };
 </script>
 
-<style scoped lang='less'>
-    .header{
-        height: 60 / 360 * 100vs;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+<style scoped lang="less">
+.header {
+  height: 60 / 360 * 100vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 
-        span{
-            display: block;
-            padding: 0 10px;
-        }
+  span {
+    display: block;
+    padding: 0 10px;
+  }
 
-        span:last-child{
-            opacity: 0;
-        }
-    }
+  span:last-child {
+    opacity: 0;
+  }
+}
 </style>

@@ -11,6 +11,7 @@ import App from "@/App.vue";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import Personal from "@/pages/Personal";
+import EditProfile from '@/pages/EditProfile';
 
 // 在.vue文件中使用router-link或router-view需要先注册
 Vue.use(VueRouter);
