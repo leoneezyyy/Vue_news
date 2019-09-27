@@ -16,9 +16,9 @@
 
     <!-- 昵称编辑输入框 -->
     <!-- 鼠标放到属性上就可以查看 -->
-    <van-dialog v-model="show1" title="编辑昵称" show-cancel-button>
+    <van-dialog v-model="show1" title="编辑昵称" show-cancel-button @confirm="handlNickname">
       <!-- value读取昵称 -->
-      <van-field :value="profile.nickname" placeholder="请输入用户名" />
+      <van-field :value="profile.nickname" placeholder="请输入用户名" ref="nickname" />
     </van-dialog>
 
     <CellBar label="密码" :text="profile.password" type="password" @click="show2 = !show2" />
@@ -28,7 +28,21 @@
       <van-field :value="profile.password" placeholder="请输入密码" ref="password" />
     </van-dialog>
 
-    <CellBar label="性别" :text="profile.gender === 1 ? '男' : '女'" />
+    <CellBar label="性别" :text="profile.gender === 1 ? '男' : '女'" @click="show3 = !show3" />
+
+    <!-- 性别编辑输入框 -->
+    <van-dialog v-model="show3" title="编辑性别" show-cancel-button @confirm="handlGender">
+      <van-radio-group v-model="genderCache">
+        <van-cell-group>
+          <van-cell title="男" clickable @click="genderCache = `1`">
+            <van-radio slot="right-icon" name="1" />
+          </van-cell>
+          <van-cell title="女" clickable @click="genderCache = `0`">
+            <van-radio slot="right-icon" name="0" />
+          </van-cell>
+        </van-cell-group>
+      </van-radio-group>
+    </van-dialog>
   </div>
 </template>
 
@@ -40,11 +54,17 @@ import CellBar from "@/components/CellBar";
 export default {
   data() {
     return {
+      // 用户详情
       profile: {},
       // 昵称弹窗
       show1: false,
       // 密码弹窗
-      show2: false
+      show2: false,
+      // 显示性别的弹窗
+      show3: false,
+
+      // 性别缓存
+      genderCache: `0`
     };
   },
 
@@ -58,6 +78,7 @@ export default {
     // data要提交给接口的数据
     editProfile(data, callback) {
       if (!data) return;
+
       this.$axios({
         url: `/user_update/` + localStorage.getItem("user_id"),
         method: "POST",
@@ -68,6 +89,7 @@ export default {
         data
       }).then(res => {
         const { message } = res.data;
+
         // 成功的弹窗提示
         if (message === "修改成功") {
           // 传入的回调函数
@@ -75,13 +97,15 @@ export default {
           if (callback) {
             callback();
           }
+
           this.$toast.success(message);
         }
       });
     },
 
+    // 选择完图片之后的回调函数,file返回选中的图片
     afterRead(file) {
-      // 构造表单数据
+      //构造表单数据
       const formData = new FormData();
       // 通过表单使用append方法追加数据
       formData.append("file", file.file);
@@ -97,34 +121,47 @@ export default {
         data: formData
       }).then(res => {
         const { data } = res.data;
+
         // 替换用户资料的头像
         this.profile.head_img = this.$axios.defaults.baseURL + data.url;
 
         // 把头像url上传到用户资料
         this.editProfile({ head_img: data.url });
       });
+    },
+
+    // 编辑昵称
+    handlNickname() {
+      // 拿到input输入框的值
+      const value = this.$refs.nickname.$refs.input.value;
+
+      // 提交到编辑资料的接口
+      this.editProfile({ nickname: value }, () => {
+        this.profile.nickname = value;
+      });
+    },
+    // 编辑昵称
+    handlPassword() {
+      // 拿到input输入框的值
+      const value = this.$refs.password.$refs.input.value;
+
+      // 提交到编辑资料的接口
+      this.editProfile({ password: value }, () => {
+        this.profile.password = value;
+      });
+    },
+
+    // 编辑性别
+    handlGender() {
+      // 把性别装换为数字
+      const gender = +this.genderCache;
+
+      // 编辑性别
+      this.editProfile({ gender }, () => {
+        // 修改成功之后替换页面显示的性别
+        this.profile.gender = gender;
+      });
     }
-  },
-
-  // 编辑昵称
-  handlNickname() {
-    // 拿到input输入框的值
-    const value = this.$refs.nickname.$refs.input.value;
-
-    // 提交到编辑资料的接口
-    this.editProfile({ nickname: value }, () => {
-      this.profile.nickname = value;
-    });
-  },
-  // 编辑昵称
-  handlPassword() {
-    // 拿到input输入框的值
-    const value = this.$refs.password.$refs.input.value;
-
-    // 提交到编辑资料的接口
-    this.editProfile({ password: value }, () => {
-      this.profile.password = value;
-    });
   },
 
   mounted() {
@@ -176,11 +213,11 @@ export default {
     height: 100 / 360 * 100vw;
     border-radius: 50%;
   }
+}
 
-  // 如果要修改第三方组件库的样式时候，需要在前面加上/deep/， 因为组件库的样式不受scoped的影响
-  /deep/ .van-uploader__upload {
-    width: 100 / 360 * 100vw;
-    height: 100 / 360 * 100vw;
-  }
+// 如果要修改第三方组件库的样式时候，需要在前面加上/deep/， 因为组件库的样式不受scoped的影响
+/deep/ .van-uploader__upload {
+  width: 100 / 360 * 100vw;
+  height: 100 / 360 * 100vw;
 }
 </style>
