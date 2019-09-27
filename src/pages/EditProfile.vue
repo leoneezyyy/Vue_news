@@ -12,7 +12,14 @@
     </div>
 
     <!-- 调用条形组件 -->
-    <CellBar label="昵称" :text="profile.nickname" />
+    <CellBar label="昵称" :text="profile.nickname" @click="show1 = !show1" />
+
+    <!-- 昵称编辑输入框 -->
+    <!-- 鼠标放到属性上就可以查看 -->
+    <van-dialog v-model="show1" title="编辑昵称" show-cancel-button>
+      <!-- value读取昵称 -->
+      <van-field :value="profile.nickname" placeholder="请输入用户名" />
+    </van-dialog>
 
     <CellBar label="密码" :text="profile.password" type="password" />
 
@@ -28,7 +35,8 @@ import CellBar from "@/components/CellBar";
 export default {
   data() {
     return {
-      profile: {}
+      profile: {},
+      show1: false,
     };
   },
 
