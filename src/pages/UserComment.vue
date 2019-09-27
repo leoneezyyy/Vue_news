@@ -3,7 +3,10 @@
     <HeaderNormal title="我的跟帖" />
 
     <!-- 评论的列表 -->
-    <div class="comment-item" v-for="(item, index) in list" :key="index">
+    <div class="comment-item" 
+    v-for="(item, index) in list" 
+    :key="index">
+
       <div class="time">2019-9-25 10:10</div>
 
       <!-- 当前的评论回复的评论 -->
@@ -26,6 +29,7 @@
 <script>
 // 导入头部
 import HeaderNormal from "@/components/HeaderNormal";
+
 export default {
   data() {
     return {
