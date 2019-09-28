@@ -28,19 +28,19 @@ axios.defaults.baseURL = "http://localhost:3000";
 
 // 创建路由配置
 const routes = [
-  { path: "/login", component: Login },
-  { path: "/Register", component: Register },
-  { path: "/register", component: Register },
-  { path: "/personal", component: Personal },
-  { path: "/edit_profile", component: EditProfile },
-  { path: "/user_follow", component: UserFollow },
-  { path: "/user_comment", component: UserComment },
-  { path: "/", component: Index }
+    { path: "/login", component: Login },
+    { path: "/Register", component: Register },
+    { path: "/register", component: Register },
+    { path: "/personal", component: Personal },
+    { path: "/edit_profile", component: EditProfile },
+    { path: "/user_follow", component: UserFollow },
+    { path: "/user_comment", component: UserComment },
+    { path: "/", component: Index }
 ];
 
 // 创建对象
 const router = new VueRouter({
-  routes
+    routes
 });
 
 // 路由守卫，就是一页面跳转之前的拦截器
@@ -48,50 +48,50 @@ const router = new VueRouter({
 // from跳转之前的页面，来自哪里
 // next 必须要调用next()。调用才会执行跳转，还可以重定向，next("/login")
 router.beforeEach((to, from, next) => {
-  // 是否有token
-  const hasToken = localStorage.getItem("token");
+    // 是否有token
+    const hasToken = localStorage.getItem("token");
 
-  // 判断是否是需要登陆权限的页面
-  if (to.path === "/personal" || to.path === "/edit_profile") {
-    // 判断本地是否有token
-    if (hasToken) {
-      // 正常跳转
-      next();
+    // 判断是否是需要登陆权限的页面
+    if (to.path === "/personal" || to.path === "/edit_profile") {
+        // 判断本地是否有token
+        if (hasToken) {
+            // 正常跳转
+            next();
+        } else {
+            // 没有token正常跳转到登录
+            next("/login");
+        }
     } else {
-      // 没有token正常跳转到登录
-      next("/login");
+        // 所有人都可以访问的页面正常浏览
+        next();
     }
-  } else {
-    // 所有人都可以访问的页面正常浏览
-    next();
-  }
 });
 
 // axios的统一的拦截器，拦截响应
 // 固定的声明
 axios.interceptors.response.use(res => {
-  const { message, statusCode } = res.data;
+    const { message, statusCode } = res.data;
 
-  if (statusCode === 401) {
-    Toast.fail(message);
-  }
+    if (statusCode === 401) {
+        Toast.fail(message);
+    }
 
-  if (message == "用户验证失败") {
-    // 跳转到登录
-    router.push("/login");
-  }
+    if (message == "用户验证失败") {
+        // 跳转到登录
+        router.push("/login");
+    }
 
-  // 必须要返回res
-  return res;
+    // 必须要返回res
+    return res;
 });
 
 new Vue({
-  el: "#app",
+    el: "#app",
 
-  // 指定一个组件渲染到根实例，这个组件可以成为最底层的组件
-  render: function(createElement) {
-    // render函数使用固定的写法
-    return createElement(App);
-  },
-  router
+    // 指定一个组件渲染到根实例，这个组件可以成为最底层的组件
+    render: function(createElement) {
+        // render函数使用固定的写法
+        return createElement(App);
+    },
+    router
 });
