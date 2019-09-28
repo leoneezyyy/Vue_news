@@ -20,7 +20,7 @@
     <!-- swipeable: 滑动切换 -->
     <van-tabs v-model="active" sticky swipeable>
       <!-- title: 要显示的内容 -->
-      <van-tab v-for="index in 8" :key="index" :title="'标签 ' + index">
+      <van-tab v-for="(item,index) in categories" :key="index" :title="item.name">
         <p v-for="index in 10" :key="index">
           <PostCard />
         </p>
@@ -36,12 +36,34 @@ import PostCard from "@/components/PostCard";
 export default {
   data() {
     return {
-      active: 1
+      // 当前默认的栏目, 没有登录应该0，有登录等于1, 最终的效果为了默认显示头条
+      active: localStorage.getItem("token") ? 1 : 0,
+      // 栏目列表
+      categories: []
     };
   },
 
   components: {
     PostCard
+  },
+
+  mounted() {
+    const config = {
+      url: "/category"
+    };
+    // 是否存在token，如果有就给头部加上token验证
+    if (localStorage.getItem("token")) {
+      config.headers = {
+        Authorization: localStorage.getItem("token")
+      };
+    }
+
+    // 请求栏目的数据
+    this.$axios(config).then(res => {
+      const { data } = res.data;
+      // 保存了栏目列表
+      this.categories = data;
+    });
   }
 };
 </script>
