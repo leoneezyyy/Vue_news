@@ -51,7 +51,7 @@ export default {
 
       console.log(this.cid)
     }
-  }
+  },
 
   components: {
     PostCard
